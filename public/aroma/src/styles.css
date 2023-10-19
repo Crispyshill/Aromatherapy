@@ -1,0 +1,174 @@
+/* Matching Lighter Brown Background Color */
+body {
+    background-color: #E6D6C9; /* A lighter brown background color */
+  }
+  
+  /* Navigation Banner */
+  nav {
+    background-color: #5C7A66;
+    padding: 10px;
+  }
+  
+  nav button {
+    background-color: #9E8354;
+    color: #FFFFFF;
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  nav button:hover {
+    background-color: #6C8A76;
+  }
+  
+  /* Essential Oils Component */
+  h2 {
+    color: #5C7A66;
+  }
+  
+  h2 button {
+    background-color: #9E8354;
+    color: #FFFFFF;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  h2 button:hover {
+    background-color: #6C8A76;
+  }
+  
+  button {
+    background-color: #9E8354;
+    color: #FFFFFF;
+    padding: 5px 10px;
+    margin: 5px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #6C8A76;
+  }
+  
+  ul {
+    list-style: none;
+  }
+  
+  ul li {
+    margin-bottom: 10px;
+  }
+  
+  ul li a {
+    color: #5C7A66;
+    text-decoration: none;
+  }
+  
+  ul li a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Essential Oil Details Component */
+  h1 {
+    color: #5C7A66;
+    margin-bottom: 10px;
+  }
+  
+  h4 {
+    color: #9E8354;
+    margin-bottom: 10px;
+  }
+  
+  span {
+    display: block;
+    color: #5C7A66;
+    margin-top: 10px;
+  }
+  
+  ul {
+    list-style: none;
+    margin-left: 0;
+    padding-left: 0;
+  }
+  
+  ul li {
+    margin-bottom: 10px;
+  }
+  
+  span + span {
+    margin-top: 5px;
+  }
+  
+  /* Improved Styling for Doshas and Chemicals */
+  ul.doshas {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  ul.doshas li {
+    margin-bottom: 5px;
+    background-color: #E6D6C9; /* Light brown background for doshas */
+    padding: 5px;
+    border-radius: 5px;
+    color: #5C7A66; /* Text color for doshas */
+  }
+  
+  ul.chemicals {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  ul.chemicals li {
+    margin-bottom: 10px;
+    background-color: #F4E9DF; /* Slightly different background color for chemicals */
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .chemical-name,
+  .chemical-category {
+    color: #9E8354; /* Same text color for chemical name and category */
+    font-weight: bold;
+  }
+  
+  /* Styling for the New Form */
+  form {
+    background-color: #F4E9DF; /* Light brown background for the form */
+    padding: 20px;
+    border-radius: 5px;
+    margin: 20px 0;
+  }
+  
+  div label {
+    color: #5C7A66; /* Greenish-brown color for labels */
+    margin-bottom: 10px;
+    display: block;
+  }
+  
+  input {
+    background-color: #D9CBBE; /* Slightly lighter brown for input fields */
+    border: none;
+    padding: 5px;
+    margin-bottom: 10px;
+  }
+  
+  label label {
+    color: #9E8354; /* Brown color for sub-labels */
+    display: block;
+  }
+  
+  label input[type="checkbox"] {
+    margin-right: 5px; /* Reduced spacing between checkboxes */
+  }
+  
+  /* Slightly Darker Background for 'Balanced Doshas' Section */
+  label label label {
+    background-color: #C2A68D; /* Slightly darker background for the 'Balanced Doshas' section */
+    padding: 10px;
+    border-radius: 5px;
+    color: #5C7A66; /* Greenish-brown color for text in the section */
+  }
+  

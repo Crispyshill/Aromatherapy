@@ -1,0 +1,27 @@
+{
+  "name": "aromatherapyproject",
+  "version": "1.0.0",
+  "description": "This is a CRUD application for essential oils and the chemicals within them.",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "AromatherapyProject"
+  },
+  "keywords": [
+    "Node",
+    "Express",
+    "Mongoose"
+  ],
+  "author": "Seth Hillsberry",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mongoose": "^7.6.0"
+  }
+}
