@@ -16,4 +16,13 @@ export class User{
     this.#credentials = credentials;
   }
 
+  JSON(){
+    return {
+      "_id": this.#_id,
+      "name": this.#name,
+      "username": this.#credentials.username,
+      "password": this.#credentials.password
+    }
+  }
+
 }

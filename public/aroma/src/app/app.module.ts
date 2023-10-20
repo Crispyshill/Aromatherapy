@@ -13,6 +13,7 @@ import { EssentialoilComponent } from './essentialoil/essentialoil.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { EssentialoilFormComponent } from './essentialoil-form/essentialoil-form.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { EssentialoilFormComponent } from './essentialoil-form/essentialoil-form
     EssentialoilComponent,
     LoginComponent,
     RegisterComponent,
-    EssentialoilFormComponent
+    EssentialoilFormComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -53,6 +55,14 @@ import { EssentialoilFormComponent } from './essentialoil-form/essentialoil-form
       {
         path: "createessentialoil",
         component: EssentialoilFormComponent
+      },
+      {
+        path: "createessentialoil/:essentialoilId",
+        component: EssentialoilFormComponent
+      },
+      {
+        path: "profile",
+        component: ProfileComponent
       }
     ]),
     HttpClientModule

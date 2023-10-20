@@ -10,4 +10,11 @@ export class Credentials{
     this.#password = password;
   }
 
+  JSON(){
+    return {
+      "username": this.#username,
+      "password": this.#password
+    }
+  }
+
 }

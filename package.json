@@ -4,7 +4,9 @@
   "description": "This is a CRUD application for essential oils and the chemicals within them.",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon",
+    "startFrontend": "cd public/aroma && npm start",
+    "startBackend": "nodemon",
+    "start": "npm run startFrontend | npm run startBackend",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

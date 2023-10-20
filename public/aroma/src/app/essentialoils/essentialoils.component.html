@@ -1,4 +1,4 @@
-<h2>Essential Oils <button routerLink="/createessentialoil">Create New Essential Oil</button></h2>
+<h2>Essential Oils <button (click)="onCreateClick()">Create New Essential Oil</button></h2>
 <button (click)="onPreviousPage()">Previous page</button>&nbsp;<button (click)="onNextPage()">Next page</button>
 <ul>
     <li *ngFor="let essentialoil of essentialoils"><button (click)="onDelete(essentialoil._id)">Delete</button>&nbsp;&nbsp;<a routerLink="/essentialoil/{{essentialoil._id}}">{{essentialoil.modernName}}</a></li>

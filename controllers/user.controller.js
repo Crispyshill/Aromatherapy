@@ -30,7 +30,8 @@ const login = function(req, res){
     User.findOne({"username": credentials.username})
             .then((databaseUser) => { console.log("databaseUser:", databaseUser.password, "credentials", credentials.password);if(bcrypt.compareSync(credentials.password + "", databaseUser.password)){
                 response.status = 200;
-                response.message = {"message": "Authentication Successfull"};
+                // response.message = {"message": "Authentication Successfull"};
+                response.message = databaseUser;
 
             }
             else{
