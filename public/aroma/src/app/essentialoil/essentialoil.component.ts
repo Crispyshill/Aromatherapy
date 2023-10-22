@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Essentialoil } from '../essentialoil.service';
 import { EssentialoilDataService } from '../essentialoil-data.service';
 import { AuthenticationService } from '../authentication.service';
+import { Doshas } from '../doshas.service';
 
 @Component({
   selector: 'app-essentialoil',
@@ -19,7 +20,8 @@ export class EssentialoilComponent implements OnInit{
 
   ngOnInit(): void {
     this._essentialoilData.getOneEssentialoil(this._activatedRoute.snapshot.params['essentialoilId']).subscribe({
-      next: (essentialoil) => {this.essentialoil = essentialoil},
+      //TODO the way this was done was to compensate for the backend giving doshas in the wrong format
+      next: (essentialoil) => {essentialoil.balancedDoshas = new Doshas(essentialoil.balancedDoshas.includes("Vata"), essentialoil.balancedDoshas.includes("Pitta"), essentialoil.balancedDoshas.includes("Kapha"));this.essentialoil = essentialoil; console.log("essentialoil", essentialoil)},
       error: (err) => {console.log("Error in essential oil data service", err)},
       complete: () => {}
     })
@@ -28,7 +30,7 @@ export class EssentialoilComponent implements OnInit{
 
   onUpdate(){
     if(this.isLoggedIn){
-      this._router.navigate(['/createessentialoil/' + this.essentialoil._id]);
+      this._router.navigate(['/essentialoilform/' + this.essentialoil._id]);
     }
     else{
       this._router.navigate(['/login']);

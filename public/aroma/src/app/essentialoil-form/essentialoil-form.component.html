@@ -1,6 +1,6 @@
-<form #essentialoilForm="ngForm" (ngSubmit)="createEssentialoil()">
-    <div><label>Modern Name: <input placeholder="modern name" name="modernName" ngModel/></label></div>
-    <div><label>Latin Name: <input placeholder="latin name" name="latinName" ngModel/></label></div>
+<form #essentialoilForm="ngForm" (ngSubmit)="submitForm()">
+    <div><label>Modern Name: <input class="form-control" placeholder="modern name" name="modernName" ngModel/></label></div>
+    <div><label>Latin Name: <input class="form-control" placeholder="latin name" name="latinName" ngModel/></label></div>
     <div><label>Balanced Doshas:<br/><br/><label>Vata <input type="checkbox" name="vata" ngModel/></label>&nbsp; <label>Pitta <input type="checkbox" name="pitta" ngModel/></label> &nbsp; <label>Kapha <input type="checkbox" name="kapha" ngModel/></label></label></div>
-    <div><button type="submit">Create</button></div>
+    <div><button class="btn-lg" type="submit">{{submitButtonText}}</button></div>
 </form>

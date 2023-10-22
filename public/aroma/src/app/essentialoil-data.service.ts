@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { Essentialoil } from './essentialoil.service';
+import { Doshas } from './doshas.service';
 
 
 @Injectable({
@@ -14,7 +15,7 @@ export class EssentialoilDataService {
 
   constructor(private _http: HttpClient) { }
 
-  createEssentialoil(newEssentialoil: Essentialoil){
+  createEssentialoil(newEssentialoil: Essentialoil): Observable<any>{
     const essentialOilToSend = {
       modernName: newEssentialoil.modernName,
       latinName: newEssentialoil.latinName,
@@ -24,34 +25,29 @@ export class EssentialoilDataService {
     console.log("creating", essentialOilToSend);
 
     
-    this._http.post(this.#_baseUrl, essentialOilToSend, {headers: new HttpHeaders({'Content-Type': 'application/json'}) }).subscribe({
-      next: (something) =>{console.log("something", something)},
-      error: (err) => {console.log(err)},
-      complete: () => {}
-    });
+    return this._http.post(this.#_baseUrl, essentialOilToSend); //{headers: new HttpHeaders({'Content-Type': 'application/json'}) }
   }
 
   getEssentialoils(queryParams: string): Observable<Essentialoil[]>{
     return this._http.get<Essentialoil[]>(this.#_baseUrl + queryParams);
   }
 
-  getOneEssentialoil(id: string): Observable<Essentialoil>{
+  //TODO fix the backend so that this gives the doshas in the correct format and switch this to essential oil from any
+  getOneEssentialoil(id: string): Observable<any>{
     return this._http.get<Essentialoil>(this.#_baseUrl + "/" + id);
   }
 
-  fullUpdateEssentialoil(id: string, updatedEssentialoil: Essentialoil){
-    this._http.put(this.#_baseUrl + "/" + id, updatedEssentialoil, {headers: new HttpHeaders({'Content-Type': 'application/json'}) });
+  fullUpdateEssentialoil(id: string, updatedEssentialoil: Essentialoil): Observable<any>{
+    return this._http.put(this.#_baseUrl + "/" + id, updatedEssentialoil); //{headers: new HttpHeaders({'Content-Type': 'application/json'}) }
   }
 
-  deleteEssentialoil(id: string){
-    console.log("calling delete on", this.#_baseUrl + "/" + id);
+  deleteEssentialoil(id: string): Observable<any>{
     return this._http.delete(this.#_baseUrl + "/" + id);
   }
 
-  // partialUpdateEssentialoil(id: string, updatedEssentialoil: Essentialoil){
-
-  //   this._http.patch(this.#_baseUrl + "/" + id, updatedEssentialoil); //You need to know if I should only send some of the fields or all of the fields
-  // }
+  partialUpdateEssentialoil(id: string, updatedEssentialoil: any): Observable<any>{
+    return this._http.patch(this.#_baseUrl + "/" + id, updatedEssentialoil); //{headers: new HttpHeaders({'Content-Type': 'application/json'}) }
+  }
 
 
 }

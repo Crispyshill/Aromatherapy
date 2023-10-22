@@ -1,6 +1,7 @@
-<h2>Essential Oils <button (click)="onCreateClick()">Create New Essential Oil</button></h2>
-<button (click)="onPreviousPage()">Previous page</button>&nbsp;<button (click)="onNextPage()">Next page</button>
-<ul>
-    <li *ngFor="let essentialoil of essentialoils"><button (click)="onDelete(essentialoil._id)">Delete</button>&nbsp;&nbsp;<a routerLink="/essentialoil/{{essentialoil._id}}">{{essentialoil.modernName}}</a></li>
+<h2 class="text-center text-white">Essential Oils</h2>
+<button class="btn-sm float-right" (click)="onCreateClick()">Create New Essential Oil</button>
+<button class="btn-sm" (click)="onPreviousPage()">Previous page</button>&nbsp;<button class="btn-sm" (click)="onNextPage()">Next page</button>
+<ul class="list-group">
+    <li class="list-group-item" *ngFor="let essentialoil of essentialoils" style="background-color:rgba(197, 202, 173, 0.855);"><button class="btn-sm" (click)="onDelete(essentialoil._id)">Delete</button>&nbsp;&nbsp;<a routerLink="/essentialoil/{{essentialoil._id}}">{{essentialoil.modernName}}</a></li>
 </ul>
 

@@ -53,11 +53,11 @@ import { ProfileComponent } from './profile/profile.component';
         component: RegisterComponent
       },
       {
-        path: "createessentialoil",
+        path: "essentialoilform",
         component: EssentialoilFormComponent
       },
       {
-        path: "createessentialoil/:essentialoilId",
+        path: "essentialoilform/:essentialoilId",
         component: EssentialoilFormComponent
       },
       {

@@ -81,7 +81,7 @@ export class EssentialoilsComponent implements OnInit {
 
   onCreateClick() {
     if (this.isLoggedIn) {
-      this._router.navigate(["/createessentialoil"]);
+      this._router.navigate(["/essentialoilform"]);
     }
     else{
       this._router.navigate(['/login']);
