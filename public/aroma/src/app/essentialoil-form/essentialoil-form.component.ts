@@ -20,7 +20,7 @@ export class EssentialoilFormComponent implements OnInit {
     if (this._activatedRoute.snapshot.params['essentialoilId']) {
       this._essentialoilDataService.getOneEssentialoil(this._activatedRoute.snapshot.params['essentialoilId']).subscribe({
         //Fix the backend Doshas so that this can return to normal
-        next: (foundEssentialOil) => {foundEssentialOil.balancedDoshas = new Doshas(foundEssentialOil.balancedDoshas.includes("Vata"), foundEssentialOil.balancedDoshas.includes("Pitta"), foundEssentialOil.balancedDoshas.includes("Kapha"));this._initializeFormFromExistingEssentialoil(foundEssentialOil)},
+        next: (foundEssentialOil) => this._initializeFormFromExistingEssentialoil(foundEssentialOil),
         error: (err) => { console.log("Error with essential oil data service while calling get one", err) }
       });
       this.submitButtonText = "Update";
@@ -29,6 +29,7 @@ export class EssentialoilFormComponent implements OnInit {
   }
 
   _initializeFormFromExistingEssentialoil(existingEssentialoil: Essentialoil): void {
+    console.log("existing essential oil", existingEssentialoil)
     this.existingEssentialoil = existingEssentialoil;
     this.essentialoilForm.form.patchValue({ "vata": existingEssentialoil.balancedDoshas.vata });
     this.essentialoilForm.form.patchValue({ "pitta": existingEssentialoil.balancedDoshas.pitta});
@@ -57,6 +58,7 @@ export class EssentialoilFormComponent implements OnInit {
     const newEssentialoil: Essentialoil = new Essentialoil(this.existingEssentialoil._id, this.essentialoilForm.form.value.modernName, this.essentialoilForm.form.value.latinName, balancedDoshas, this.existingEssentialoil.chemicals);
     const changedAttributes = this.identifyChanges(newEssentialoil);
     if(Object.keys(changedAttributes).length !== 0){
+      console.log("Updating essential oil", changedAttributes);
       this._essentialoilDataService.partialUpdateEssentialoil(this.existingEssentialoil._id, changedAttributes).subscribe({
         next: (savedEssentialoil) => {},
         error: (err) => {console.log("There was an error updating", err)}
@@ -76,8 +78,8 @@ export class EssentialoilFormComponent implements OnInit {
     if (this.existingEssentialoil.modernName !== newEssentialoil.modernName) {
       changedAttributes.modernName = newEssentialoil.modernName;
     }
-    if (JSON.stringify(this.existingEssentialoil.balancedDoshas.JSON()) !== JSON.stringify(newEssentialoil.balancedDoshas.JSON())) {
-      changedAttributes.balancedDoshas = newEssentialoil.balancedDoshas;
+    if (JSON.stringify(this.existingEssentialoil.balancedDoshas) !== JSON.stringify(newEssentialoil.balancedDoshas.JSON())) {
+      changedAttributes.balancedDoshas = newEssentialoil.balancedDoshas.JSON();
     }
     return changedAttributes;
   }
@@ -89,6 +91,7 @@ export class EssentialoilFormComponent implements OnInit {
   createEssentialoil() {
     const balancedDoshas: Doshas = this.getBalancedDoshasFromForm();
     const newEssentialoil: Essentialoil = new Essentialoil("", this.essentialoilForm.form.value.modernName, this.essentialoilForm.form.value.latinName, balancedDoshas, []);
+    console.log("Creating essential oil", newEssentialoil);
     this._essentialoilDataService.createEssentialoil(newEssentialoil).subscribe({
       next: () => { },
       error: () => { }

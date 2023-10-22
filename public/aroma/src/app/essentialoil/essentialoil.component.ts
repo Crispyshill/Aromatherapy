@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Essentialoil } from '../essentialoil.service';
 import { EssentialoilDataService } from '../essentialoil-data.service';
 import { AuthenticationService } from '../authentication.service';
 import { Doshas } from '../doshas.service';
+import { NgForm } from '@angular/forms';
+import { ChemicalDataService } from '../chemical-data.service';
 
 @Component({
   selector: 'app-essentialoil',
@@ -12,16 +14,21 @@ import { Doshas } from '../doshas.service';
 })
 export class EssentialoilComponent implements OnInit{
 
+  @ViewChild("chemicalForm")
+  chemicalForm!: NgForm;
+
+  openChemicalForm: boolean = false;
+
   get isLoggedIn(){return this._authentication.isLoggedIn}
 
   essentialoil!: Essentialoil;
 
-  constructor(private _activatedRoute: ActivatedRoute, private _essentialoilData: EssentialoilDataService, private _authentication: AuthenticationService, private _router: Router){}
+  constructor(private _activatedRoute: ActivatedRoute, private _essentialoilData: EssentialoilDataService, private _authentication: AuthenticationService, private _router: Router, private _chemicalDataService: ChemicalDataService){}
 
   ngOnInit(): void {
     this._essentialoilData.getOneEssentialoil(this._activatedRoute.snapshot.params['essentialoilId']).subscribe({
       //TODO the way this was done was to compensate for the backend giving doshas in the wrong format
-      next: (essentialoil) => {essentialoil.balancedDoshas = new Doshas(essentialoil.balancedDoshas.includes("Vata"), essentialoil.balancedDoshas.includes("Pitta"), essentialoil.balancedDoshas.includes("Kapha"));this.essentialoil = essentialoil; console.log("essentialoil", essentialoil)},
+      next: (essentialoil) => {this.essentialoil = essentialoil},
       error: (err) => {console.log("Error in essential oil data service", err)},
       complete: () => {}
     })
@@ -36,6 +43,25 @@ export class EssentialoilComponent implements OnInit{
       this._router.navigate(['/login']);
     }
   }
+
+  openForm(){
+    this.openChemicalForm = true;
+  }
+
+  addChemical(){
+    console.log("clicked");
+    console.log("name", this.chemicalForm.value.name);
+    this._chemicalDataService.createOneChemical(this._activatedRoute.snapshot.params['essentialoilId'], this.chemicalForm.value).subscribe({
+      next: (savedChemical) => {console.log("Chemical saved", savedChemical)},
+      error: (err) => {console.log("Error creating new chemical", err)}
+    })
+  }
+
+  onClose(){
+    this.openChemicalForm = false;
+  }
+
+
 
 
 
