@@ -13,6 +13,7 @@ const noMatchForRequest = function(req, res){
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
+
 app.use("/api", function(req, res, next){
     res.header("Access-Control-Allow-Origin", process.env.FRONTEND_URL);
     res.header("Access-Control-Allow-Headers", 'Content-Type');

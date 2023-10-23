@@ -10,6 +10,25 @@ const chemicalSchema = new mongoose.Schema(
     }
 );
 
+const doshaSchema = new mongoose.Schema(
+    {
+        vata: {
+            type: Boolean,
+            required: true
+        },
+        pitta: {
+            type: Boolean,
+            required: true
+        },
+        kapha: {
+            type: Boolean,
+            required: true
+        }
+
+    },
+    {_id: false}
+)
+
 const essentialoilSchema = new mongoose.Schema(
     {
         modernName: {
@@ -17,7 +36,7 @@ const essentialoilSchema = new mongoose.Schema(
             required: true
         },
         latinName: String,
-        balancedDoshas: [String],
+        balancedDoshas: doshaSchema,
         chemicals: [chemicalSchema]
 }
 );

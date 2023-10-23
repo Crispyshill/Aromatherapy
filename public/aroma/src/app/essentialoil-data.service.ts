@@ -19,7 +19,7 @@ export class EssentialoilDataService {
     const essentialOilToSend = {
       modernName: newEssentialoil.modernName,
       latinName: newEssentialoil.latinName,
-      balancedDoshas: newEssentialoil.balancedDoshas,
+      balancedDoshas: newEssentialoil.balancedDoshas.JSON(),
       chemicals: newEssentialoil.chemicals
     }
     console.log("creating", essentialOilToSend);
@@ -33,7 +33,7 @@ export class EssentialoilDataService {
   }
 
   //TODO fix the backend so that this gives the doshas in the correct format and switch this to essential oil from any
-  getOneEssentialoil(id: string): Observable<any>{
+  getOneEssentialoil(id: string): Observable<Essentialoil>{
     return this._http.get<Essentialoil>(this.#_baseUrl + "/" + id);
   }
 
