@@ -25,6 +25,7 @@ export class EssentialoilFormComponent implements OnInit {
       });
       this.submitButtonText = "Update";
     }
+    
 
   }
 
@@ -45,6 +46,7 @@ export class EssentialoilFormComponent implements OnInit {
 
 
   submitForm() {
+    console.log("form values", this.essentialoilForm.value)
     if (this.existingEssentialoil) {
       this.updateEssentialoil();
     }
@@ -54,13 +56,15 @@ export class EssentialoilFormComponent implements OnInit {
   }
 
   updateEssentialoil() {
+    console.log("updating essengion oil")
     const balancedDoshas = this.getBalancedDoshasFromForm();
+    console.log("Balanced doshas to update", balancedDoshas)
     const newEssentialoil: Essentialoil = new Essentialoil(this.existingEssentialoil._id, this.essentialoilForm.form.value.modernName, this.essentialoilForm.form.value.latinName, balancedDoshas, this.existingEssentialoil.chemicals);
     const changedAttributes = this.identifyChanges(newEssentialoil);
     if(Object.keys(changedAttributes).length !== 0){
       console.log("Updating essential oil", changedAttributes);
       this._essentialoilDataService.partialUpdateEssentialoil(this.existingEssentialoil._id, changedAttributes).subscribe({
-        next: (savedEssentialoil) => {},
+        next: (savedEssentialoil) => {console.log("saved eo", savedEssentialoil)},
         error: (err) => {console.log("There was an error updating", err)}
       });
     }    
@@ -85,10 +89,12 @@ export class EssentialoilFormComponent implements OnInit {
   }
 
   getBalancedDoshasFromForm(): Doshas{
-    return new Doshas(this.essentialoilForm.form.value.vata, this.essentialoilForm.form.value.pitta, this.essentialoilForm.form.value.kapha);
+    console.log("vata", this.essentialoilForm.form.value.vata)
+    return new Doshas(this.essentialoilForm.form.value.vata === true, this.essentialoilForm.form.value.pitta === true, this.essentialoilForm.form.value.kapha === true);
   }
 
   createEssentialoil() {
+    console.log("vata", this.essentialoilForm.form.value.vata)
     const balancedDoshas: Doshas = this.getBalancedDoshasFromForm();
     const newEssentialoil: Essentialoil = new Essentialoil("", this.essentialoilForm.form.value.modernName, this.essentialoilForm.form.value.latinName, balancedDoshas, []);
     console.log("Creating essential oil", newEssentialoil);

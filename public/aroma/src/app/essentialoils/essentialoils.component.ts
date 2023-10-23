@@ -17,24 +17,19 @@ export class EssentialoilsComponent implements OnInit {
   get isLoggedIn() { return this._authentication.isLoggedIn }
 
   #pageNumber: number = 0;
-  #offset: number = 0;
 
-  #defaultCount: number = 10;
+  #defaultCount: number = 5;
 
   constructor(private _essentialoilData: EssentialoilDataService, private _router: Router, private _authentication: AuthenticationService) { }
 
   ngOnInit(): void {
-    this._essentialoilData.getEssentialoils("?count=" + this.#defaultCount).subscribe({
-      next: (essentialoil) => { this.essentialoils = essentialoil },
-      error: (err) => { console.log("Error with essential oil data service", err) },
-      complete: () => { }
-    });
+    this.loadFirstPage();
   }
 
   onDelete(id: string) {
     this._essentialoilData.deleteEssentialoil(id).subscribe({
       next: (renameMe) => {
-        console.log("successfully deleted", renameMe); const queryParams = "?count=5&offset=" + this.#offset;
+        console.log("successfully deleted", renameMe); const queryParams = "?count=5&offset=" + this.#pageNumber * this.#defaultCount;
         this._essentialoilData.getEssentialoils(queryParams).subscribe({
           next: (essentialoil) => { this.essentialoils = essentialoil },
           error: (err) => { console.log("Error with essential oil data service", err) },
@@ -46,12 +41,19 @@ export class EssentialoilsComponent implements OnInit {
 
   }
 
+  loadFirstPage(): void{
+    this._essentialoilData.getEssentialoils("?count=" + this.#defaultCount).subscribe({
+      next: (essentialoil) => { this.essentialoils = essentialoil },
+      error: (err) => { console.log("Error with essential oil data service", err) },
+      complete: () => { }
+    });
+  }
+
   onNextPage() {
     this.#pageNumber++;
-    this.#offset = this.#pageNumber * this.#defaultCount;
-    const queryParams = "?count=" + this.#defaultCount + "&offset=" + this.#offset;
+    const queryParams = "?count=" + this.#defaultCount + "&offset=" + this.#pageNumber * this.#defaultCount;
     this._essentialoilData.getEssentialoils(queryParams).subscribe({
-      next: (essentialoil) => { this.essentialoils = essentialoil },
+      next: (essentialoils) => { if(essentialoils.length === 0){this.#pageNumber--;}else{this.essentialoils = essentialoils }},
       error: (err) => { console.log("Error with essential oil data service", err) },
       complete: () => {
         this._router.navigate(["/essentialoils"]);
@@ -60,22 +62,21 @@ export class EssentialoilsComponent implements OnInit {
   }
 
   onPreviousPage(): void {
-    console.log("page#", this.#pageNumber)
-    if (this.#pageNumber > 0) {
-      this.#pageNumber--;
-      this.#offset = this.#pageNumber * this.#defaultCount;
-    }
-    let queryParams: string = "?count=" + this.#defaultCount;
-    if (this.#offset > 0) {
-      queryParams = "?count=" + this.#defaultCount + "&offset=" + this.#offset;
-    }
-
+    console.log("this page number", this.#pageNumber)
+    if(this.#pageNumber > 1){
+    this.#pageNumber--;
+    let queryParams: string = "?count=" + this.#defaultCount + "&offset=" + this.#pageNumber*this.#defaultCount;
     this._essentialoilData.getEssentialoils(queryParams).subscribe({
-      next: (essentialoil) => { this.essentialoils = essentialoil },
+      next: (essentialoils) => {this.essentialoils = essentialoils },
       error: (err) => { console.log("Error with essential oil data service", err) },
       complete: () => { }
     });
     this._router.navigate(["/essentialoils"]);
+  }
+  else if(this.#pageNumber === 1){
+    this.#pageNumber = 0;
+    this.loadFirstPage();
+  }
 
   }
 
