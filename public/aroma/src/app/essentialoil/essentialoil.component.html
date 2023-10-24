@@ -15,7 +15,8 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <h5 class="text-white">List of chemicals in this essential oil <button class="btn-sm" (click)="openForm()">Add Chemical</button></h5>
+            <h5 class="text-white">List of chemicals in this essential oil <button *ngIf="!openChemicalForm" class="btn-sm" (click)="openForm()">Add Chemical</button></h5>
+            <h5 *ngIf="formUpdatingChemical" class="text-white">Updating {{updatingChemical.name}}</h5>
             <form *ngIf="openChemicalForm" #chemicalForm="ngForm" (ngSubmit)="addChemical()">
                 <label >Name: <input name="name" ngModel></label>
                 <label>Category: <input name="category" ngModel></label>
@@ -24,7 +25,9 @@
             </form>
             <ul  *ngIf="!openChemicalForm" class="chemicals list-unstyled list-group">
                 <li class="list-group-item" style="background-color:rgba(197, 202, 173, 0.855);" *ngFor="let chemical of essentialoil.chemicals">
+                    <button class="btn-sm " (click)="onDeleteChemical(chemical._id)">Delete</button>
                     <span class="chemical-name">Name: {{chemical.name}}</span><br />
+                    <button class="btn-sm" (click)="onUpdateChemical(chemical)">Update</button>
                     <span class="chemical-category">Category: {{chemical.category}}</span>
                 </li>
             </ul>
