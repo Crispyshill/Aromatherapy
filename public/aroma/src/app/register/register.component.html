@@ -1,6 +1,6 @@
 <h1>{{title_register}}</h1>
-<span *ngIf="errorRegistering">{{registrationErrorMessage}}</span>
-<span *ngIf="successfullyRegistered">{{registrationSuccessMessage}}</span>
+<h3 class="alert-danger" *ngIf="errorRegistering">{{registrationErrorMessage}}</h3>
+<h3 class="alert-success" *ngIf="successfullyRegistered">{{registrationSuccessMessage}}</h3>
 <form [formGroup]="registerGroup" (ngSubmit)="register()">
     <div><label>{{message_name_pre}} <input placeholder="name" formControlName="name" /></label></div>
     <div><label>{{message_username_pre}} <input placeholder="username" formControlName="username" /></label></div>
