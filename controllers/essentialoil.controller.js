@@ -37,22 +37,35 @@ const getAllEssentialoils = function (req, res) {
         }
 
         _findAllEssentialoils(count, offset)
-            .catch((err) => _fillResponseWithFindError(err, response))
             .then((foundEssentialoils) => _fillResponseWithFoundEssentialoil(foundEssentialoils, response))
+            .catch((err) => _fillResponseWithFindError(err, response))
             .finally(() => _sendResponse(response, res));
     }
 }
+
+
 
 const getOneEssentialoil = function (req, res) {
     const response = _createResponse();
     const essentialoilId = _getIdFromRequest(req);
 
     _findEssentialoilById(essentialoilId)
-        .catch((err) => _fillResponseWithFindError(err, response))
         .then((findEssentialoilResult) => _ensureFoundEssentialoilIsNotNull(findEssentialoilResult))
-        .catch((err) => _fillResponseWithResourceNotFoundError(err, response))
         .then((foundEssentialoil) => _fillResponseWithFoundEssentialoil(foundEssentialoil, response))
+        .catch((err) => _fillReponseWithGetOneError(err, response))
         .finally(() => _sendResponse(response, res));
+}
+
+const _fillReponseWithGetOneError = function(err, response){
+    console.log(err);
+    if(err === process.env.ERR_NO_ESSENTIALOIL){
+        response.status = 404;
+        response.message = {"message": process.env.MESSAGE_FIND_ERROR}
+    }
+    else{
+        response.status = 500;
+        response.message = {"message": process.env.MESSAGE_FIND_ERROR}
+    }
 }
 
 const partialUpdateEssentialoil = function (req, res) {
@@ -69,11 +82,22 @@ const deleteOneEssentialoil = function (req, res) {
     const response = _createResponse();
 
     Essentialoil.deleteOne({ "_id": id })
-        .catch((err) => _fillResponseWithDeleteError(err, response))
         .then((acknowledgement) => _ensureEssentialoilDeleted(acknowledgement))
-        .catch((err) => _fillResponseWithResourceNotFoundError(err, response))
         .then((acknowledgement) => _fillResponseWithDeleteAcknowledgement(acknowledgement, response))
+        .catch((err) => _fillResponseWithErrorForDelete(err, response))
         .finally(() => _sendResponse(response, res));
+}
+
+const _fillResponseWithErrorForDelete = function(err, response){
+    console.log(err);
+    if(err === process.env.ERR_NO_ESSENTIALOIL){
+        response.status = 404;
+        response.message = {"message": process.env.MESSAGE_FIND_ERROR}
+    }
+    else{
+        response.status = 500;
+        response.message = {"message": process.env.MESSAGE_DELETE_ERROR}
+    }
 }
 
 const _fillResponseWithInvalidCountError = function (response) {
@@ -125,6 +149,7 @@ const _createEssentialOilInDatabase = function (newEssentialoil) {
 }
 
 const _fillResponseWithResourceNotFoundError = function (err, response) {
+    console.log("RESOURCE NOT FOUND");
     console.log(err);
     _fillResponse(process.env.STATUS_RESOURCE_NOT_FOUND, { "message": process.env.MESSAGE_RESOURCE_NOT_FOUND }, response);
 }
@@ -139,13 +164,15 @@ const _findEssentialoilById = function (id) {
 }
 
 const _fillResponseWithFoundEssentialoil = function (foundEssentialoil, response) {
+    console.log("filling response with found eo")
     _fillResponse(process.env.STATUS_FOUND, foundEssentialoil, response);
 }
 
 const _ensureFoundEssentialoilIsNotNull = function (foundEssentialoil) {
+
     return new Promise((resolve, reject) => {
         if (null === foundEssentialoil) {
-            reject();
+            reject(process.env.ERR_NO_ESSENTIALOIL);
         }
         else {
             resolve(foundEssentialoil);
@@ -158,15 +185,26 @@ const _updateEssentialoil = function (req, res, _fillEssentialoil) {
     const essentialoilId = _getIdFromRequest(req);
 
     _findEssentialoilById(essentialoilId)
-        .catch((err) => _fillResponseWithFindError(err))
         .then((findEssentialoilResult) => _ensureFoundEssentialoilIsNotNull(findEssentialoilResult))
-        .catch((err) => _fillResponseWithResourceNotFoundError(err, response))
         .then((foundEssentialoil) => _fillEssentialoil(foundEssentialoil, req))
         .then((filledEssentialoil) => _saveEssentialoil(filledEssentialoil))
-        .catch((err) => _fillResponseWithSaveError(err, response))
         .then((savedEssentialoil) => _fillResponseWithUpdatedEssentialoil(savedEssentialoil, response))
-        .catch((err) => _fillResponseWithSaveError(err, response))
+        .catch((err) => _fillResponseWithUpdateError(err, response))
         .finally(() => _sendResponse(response, res));
+}
+
+const _fillResponseWithUpdateError = function(err, response){
+
+    console.log("Error", err);
+    if(err === process.env.ERR_NO_ESSENTIALOIL){
+        response.status = 404;
+        response.message = {"message": process.env.MESSAGE_FIND_ERROR}
+    }
+    else{
+        response.status = 500;
+        response.message = {"message": process.env.MESSAGE_UPDATE_ERROR}
+    }
+
 }
 
 const _fillResponseWithUpdatedEssentialoil = function (updatedEssentialoil, response) {

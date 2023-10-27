@@ -1,12 +1,12 @@
 <span *ngIf="errorLoggingIn">{{loginErrorMessage}}</span>
 <div *ngIf="!isLoggedIn">
-<h1>Login</h1>
+<h1>{{title_login}}</h1>
 <form #LoginForm="ngForm" (ngSubmit)="login(LoginForm)">
-   <label>Username <input name="username" placeholder="username" ngModel/></label>
-   <label>Password <input type="password" name="password" placeholder="password" ngModel/></label>
+   <label>{{message_username_pre}} <input name="username" placeholder="username" ngModel/></label>
+   <label>{{message_password_pre}} <input type="password" name="password" placeholder="password" ngModel/></label>
    <button type="submit">Login</button>
 </form>
 </div>
 <div *ngIf="isLoggedIn">
-   <h1>Welcome!</h1>
+   <h1>{{message_login_welcome}}!</h1>
 </div>

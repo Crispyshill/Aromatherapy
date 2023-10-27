@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Credentials } from './credentials.service';
 import { User } from './user.service';
 import { Observable } from 'rxjs';
+import { JwtToken } from './jwt-token.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +15,8 @@ export class UserDataService {
   constructor(private _httpClient: HttpClient) { }
 
 
-  verifyCredentials(credential: Credentials): Observable<User> {
-    return this._httpClient.post<User>(this.baseUrl + "/login", credential.JSON());
+  verifyCredentials(credential: Credentials): Observable<JwtToken> {
+    return this._httpClient.post<JwtToken>(this.baseUrl + "/login", credential.JSON());
   }
 
   registerUser(newUser: User): Observable<User>{

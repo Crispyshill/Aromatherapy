@@ -4,6 +4,7 @@ import { Essentialoil } from '../essentialoil.service';
 import { EssentialoilDataService } from '../essentialoil-data.service';
 import { Router, NavigationExtras } from '@angular/router';
 import { AuthenticationService } from '../authentication.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-essentialoils',
@@ -19,6 +20,10 @@ export class EssentialoilsComponent implements OnInit {
   #pageNumber: number = 0;
 
   #defaultCount: number = 5;
+
+  title_eo: string = environment.title_eo;
+  button_create_eo: string = environment.button_create_eo;
+  button_delete: string = environment.button_delete;
 
   constructor(private _essentialoilData: EssentialoilDataService, private _router: Router, private _authentication: AuthenticationService) { }
 

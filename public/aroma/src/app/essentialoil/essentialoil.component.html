@@ -1,13 +1,13 @@
-<h2 class="text-center text-white">{{essentialoil.modernName}} <button class="btn-sm" (click)="onUpdate()">Update</button></h2>
-<h4 class="text-center text-white">Latin name - {{essentialoil.latinName}}</h4>
+<h2 class="text-center text-white">{{essentialoil.modernName}} <button *ngIf="isLoggedIn" class="btn-sm" (click)="onUpdate()">{{button_update}}</button></h2>
+<h4 class="text-center text-white">{{message_latin_name_pre}} - {{essentialoil.latinName}}</h4>
 <div class="container">
     <div class="row">
         <div class="col">
-            <h5 class="text-white">Doshas that are reduced by this essential oil</h5>
+            <h5 class="text-white">{{message_balanced_eo}}</h5>
             <ul class="list-inline " style="background-color:rgba(197, 202, 173, 0.855);">
-                <li *ngIf="essentialoil.balancedDoshas.vata">&emsp;Vata</li>
-                <li *ngIf="essentialoil.balancedDoshas.pitta">&emsp;Pitta</li>
-                <li *ngIf="essentialoil.balancedDoshas.kapha">&emsp;Kapha</li>
+                <li *ngIf="essentialoil.balancedDoshas.vata">&emsp;{{vata}}</li>
+                <li *ngIf="essentialoil.balancedDoshas.pitta">&emsp;{{pitta}}</li>
+                <li *ngIf="essentialoil.balancedDoshas.kapha">&emsp;{{kapha}}</li>
             </ul>
         </div>
     </div>
@@ -15,20 +15,20 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <h5 class="text-white">List of chemicals in this essential oil <button *ngIf="!openChemicalForm" class="btn-sm" (click)="openForm()">Add Chemical</button></h5>
-            <h5 *ngIf="formUpdatingChemical" class="text-white">Updating {{updatingChemical.name}}</h5>
+            <h5 class="text-white">{{message_chemical_list}}<button *ngIf="!openChemicalForm && isLoggedIn" class="btn-sm" (click)="openForm()">Add Chemical</button></h5>
+            <h5 *ngIf="formUpdatingChemical" class="text-white">{{message_chemical_update_form_pre}} {{updatingChemical.name}}</h5>
             <form *ngIf="openChemicalForm" #chemicalForm="ngForm" (ngSubmit)="addChemical()">
-                <label >Name: <input name="name" ngModel></label>
-                <label>Category: <input name="category" ngModel></label>
-                <button type="submit">Submit</button>
-                <button (click)="onClose()">Close</button>
+                <label >{{message_name_pre}} <input name="name" ngModel></label>
+                <label>{{message_category_pre}} <input name="category" ngModel></label>
+                <button type="submit">{{button_submit}}</button>
+                <button (click)="onClose()">{{button_close}}</button>
             </form>
             <ul  *ngIf="!openChemicalForm" class="chemicals list-unstyled list-group">
                 <li class="list-group-item" style="background-color:rgba(197, 202, 173, 0.855);" *ngFor="let chemical of essentialoil.chemicals">
-                    <button class="btn-sm " (click)="onDeleteChemical(chemical._id)">Delete</button>
-                    <span class="chemical-name">Name: {{chemical.name}}</span><br />
-                    <button class="btn-sm" (click)="onUpdateChemical(chemical)">Update</button>
-                    <span class="chemical-category">Category: {{chemical.category}}</span>
+                    <button *ngIf="isLoggedIn" class="btn-sm " (click)="onDeleteChemical(chemical._id)">{{button_delete}}</button>
+                    <span class="chemical-name">{{message_name_pre}} {{chemical.name}}</span><br />
+                    <button *ngIf="isLoggedIn" class="btn-sm" (click)="onUpdateChemical(chemical)">{{button_update}}</button>
+                    <span class="chemical-category">{{message_category_pre}} {{chemical.category}}</span>
                 </li>
             </ul>
         </div>

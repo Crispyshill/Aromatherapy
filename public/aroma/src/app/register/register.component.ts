@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { UserDataService } from '../user-data.service';
 import { User } from '../user.service';
 import { Credentials } from '../credentials.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-register',
@@ -17,6 +18,13 @@ export class RegisterComponent implements OnInit {
   successfullyRegistered: boolean = false;
   registrationSuccessMessage: string = "Successfully registered new user";
 
+
+  title_register: string = environment.title_register;
+  message_name_pre: string = environment.message_name_pre;
+  message_username_pre: string = environment.message_username_pre;
+  message_password_pre: string = environment.message_password_pre;
+  message_password_repeat_pre: string = environment.message_password_repeat_pre;
+  button_register: string = environment.button_register;
 
   registerGroup!: FormGroup;
 

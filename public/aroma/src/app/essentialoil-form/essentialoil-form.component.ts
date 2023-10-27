@@ -4,6 +4,7 @@ import { Essentialoil } from '../essentialoil.service';
 import { EssentialoilDataService } from '../essentialoil-data.service';
 import { ActivatedRoute } from '@angular/router';
 import { Doshas } from '../doshas.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-essentialoil-form',
@@ -12,9 +13,16 @@ import { Doshas } from '../doshas.service';
 })
 export class EssentialoilFormComponent implements OnInit {
 
-  submitButtonText: string = "Create";
+  submitButtonText: string = environment.button_submit;
 
   existingEssentialoil!: Essentialoil;
+
+  modern_name_pre: string = environment.message_modern_name_pre;
+  latin_name_pre: string = environment.message_latin_name_pre;
+  balanced_doshas_pre: string = environment.message_balanced_doshas_pre;
+  vata: string = environment.vata;
+  pitta: string = environment.pitta;
+  kapha: string = environment.kapha;
 
   ngOnInit(): void {
     if (this._activatedRoute.snapshot.params['essentialoilId']) {

@@ -1,0 +1,16 @@
+x 1) Extract constants from angular frontend
+   x a)essentialoil
+   x b)essentialoil-from
+   x c)essentialoils
+   x d)home
+   x e)login
+   x f)navigation
+   x g)profile
+   x h)register
+
+2) Promisify subdocument backend controller
+3) Implement hardening for get all in subdocument
+4) Implement better error handling in backend
+5) Refactor JwtToken class so that it extracts the data itself
+6) Add failure and success messages to all forms
+7) Implement profile page

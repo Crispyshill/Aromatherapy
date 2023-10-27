@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router} from '@angular/router'
 import { AuthenticationService } from '../authentication.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-navigation',
@@ -8,6 +9,14 @@ import { AuthenticationService } from '../authentication.service';
   styleUrls: ['./navigation.component.css']
 })
 export class NavigationComponent {
+
+  title: string = environment.title;
+  page_home: string = environment.page_home;
+  page_essential_oils: string = environment.page_essential_oils;
+  page_login: string = environment.page_login;
+  page_register: string = environment.page_register;
+  page_profile: string = environment.page_profile;
+  page_logout: string = environment.page_logout;
 
   get isLoggedIn(){return this._authentication.isLoggedIn}
   // set isLoggedIn(value: string){this._authentication.isLoggedIn = value}
@@ -20,7 +29,7 @@ export class NavigationComponent {
   }
 
   logout(){
-    this._authentication.isLoggedIn = "false";
+    this._authentication.logout();
     this._router.navigate(['/']);
   }
 }

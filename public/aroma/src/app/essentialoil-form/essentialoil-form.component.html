@@ -2,13 +2,13 @@
     <div class="row">
         <div class="col text-center">
             <form #essentialoilForm="ngForm" (ngSubmit)="submitForm()">
-                <div><label>Modern Name: <input class="form-control" placeholder="modern name" name="modernName"
+                <div><label>{{modern_name_pre}}: <input class="form-control" placeholder="modern name" name="modernName"
                             ngModel /></label></div>
-                <div><label>Latin Name: <input class="form-control" placeholder="latin name" name="latinName"
+                <div><label>{{latin_name_pre}}: <input class="form-control" placeholder="latin name" name="latinName"
                             ngModel /></label></div>
-                <div><label>Balanced Doshas:<br /><br /><label>Vata <input type="checkbox" name="vata"
-                                ngModel /></label>&nbsp; <label>Pitta <input type="checkbox" name="pitta"
-                                ngModel /></label> &nbsp; <label>Kapha <input type="checkbox" name="kapha"
+                <div><label>{{balanced_doshas_pre}}:<br /><br /><label>{{vata}} <input type="checkbox" name="vata"
+                                ngModel /></label>&nbsp; <label>{{pitta}} <input type="checkbox" name="pitta"
+                                ngModel /></label> &nbsp; <label>{{kapha}} <input type="checkbox" name="kapha"
                                 ngModel /></label></label></div>
                 <div><button class="btn-lg" type="submit">{{submitButtonText}}</button></div>
             </form>

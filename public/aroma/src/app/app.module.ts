@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { ReactiveFormsModule } from '@angular/forms'
+import { ReactiveFormsModule } from '@angular/forms';
+import { JwtModule } from '@auth0/angular-jwt';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -14,6 +15,8 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { EssentialoilFormComponent } from './essentialoil-form/essentialoil-form.component';
 import { ProfileComponent } from './profile/profile.component';
+import { AppRoutes } from './app.routes';
+import { AuthenticationInterceptor } from './authentication.interceptor';
 
 @NgModule({
   declarations: [
@@ -28,46 +31,14 @@ import { ProfileComponent } from './profile/profile.component';
     ProfileComponent
   ],
   imports: [
+    JwtModule,
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule.forRoot([
-      {
-        path: "",
-        component: HomeComponent
-      },
-      {
-        path: "essentialoils",
-        component: EssentialoilsComponent
-      },
-      {
-        path: "essentialoil/:essentialoilId",
-        component: EssentialoilComponent
-      },
-      {
-        path: "login",
-        component: LoginComponent
-      },
-      {
-        path: "register",
-        component: RegisterComponent
-      },
-      {
-        path: "essentialoilform",
-        component: EssentialoilFormComponent
-      },
-      {
-        path: "essentialoilform/:essentialoilId",
-        component: EssentialoilFormComponent
-      },
-      {
-        path: "profile",
-        component: ProfileComponent
-      }
-    ]),
+    RouterModule.forRoot(AppRoutes),
     HttpClientModule
   ],
-  providers: [],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

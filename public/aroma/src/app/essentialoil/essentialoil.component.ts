@@ -7,6 +7,7 @@ import { Doshas } from '../doshas.service';
 import { NgForm } from '@angular/forms';
 import { ChemicalDataService } from '../chemical-data.service';
 import { Chemical } from '../chemical.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-essentialoil',
@@ -23,6 +24,20 @@ export class EssentialoilComponent implements OnInit{
   updatingChemical!: Chemical;
 
   formUpdatingChemical: boolean = false;
+
+  message_balanced_eo: string = environment.message_balanced_eo;
+  message_chemical_list: string = environment.message_chemical_list;
+  message_latin_name_pre: string = environment.message_latin_name_pre;
+  message_name_pre: string = environment.message_name_pre;
+  message_category_pre: string = environment.message_category_pre;
+  button_update: string = environment.button_update;
+  button_close: string = environment.button_close;
+  button_submit: string = environment.button_submit;
+  button_delete: string = environment.button_delete;
+  message_chemical_update_form_pre: string = environment.message_chemical_update_form_pre;
+  vata: string = environment.vata;
+  pitta: string = environment.pitta;
+  kapha: string = environment.kapha;
 
   get isLoggedIn(){return this._authentication.isLoggedIn}
 

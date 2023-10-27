@@ -1,12 +1,12 @@
-<h1>Register</h1>
+<h1>{{title_register}}</h1>
 <span *ngIf="errorRegistering">{{registrationErrorMessage}}</span>
 <span *ngIf="successfullyRegistered">{{registrationSuccessMessage}}</span>
 <form [formGroup]="registerGroup" (ngSubmit)="register()">
-    <div><label>Name <input placeholder="name" formControlName="name" /></label></div>
-    <div><label>Username <input placeholder="username" formControlName="username" /></label></div>
-    <div><label>Password <input placeholder="password" type="password" formControlName="password" /></label></div>
-    <div><label>Repeat password <input placeholder="password" type="password"
+    <div><label>{{message_name_pre}} <input placeholder="name" formControlName="name" /></label></div>
+    <div><label>{{message_username_pre}} <input placeholder="username" formControlName="username" /></label></div>
+    <div><label>{{message_password_pre}} <input placeholder="password" type="password" formControlName="password" /></label></div>
+    <div><label>{{message_password_repeat_pre}} <input placeholder="password" type="password"
                 formControlName="repeated_password" /></label></div>
-    <button type="submit">Register</button>
+    <button type="submit">{{button_register}}</button>
 
 </form>

@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { Credentials } from '../credentials.service';
 import { UserDataService } from '../user-data.service';
 import { AuthenticationService } from '../authentication.service';
+import { environment } from 'src/environments/environment';
 
 
 
@@ -21,6 +22,11 @@ export class LoginComponent implements OnInit{
   loginErrorMessage: string = "Error logging in, try a different username or password or maybe there was a backend error";
 
 
+  title_login: string = environment.title_login;
+  message_username_pre: string = environment.message_username_pre;
+  message_password_pre: string = environment.message_password_pre;
+  message_login_welcome: string = environment.message_login_welcome;
+
   @ViewChild("LoginForm")
   form!: NgForm;
 
@@ -30,8 +36,8 @@ export class LoginComponent implements OnInit{
     console.log(form.value);
     const credentials: Credentials = new Credentials(form.value.username, form.value.password);
     this._authenticationService.login(credentials).subscribe({
-      next: (loggedInUser) => {this.errorLoggingIn = false;},
-      error: (err) => {this.errorLoggingIn = true}
+      next: () => {this.errorLoggingIn = false; },
+      error: () => {this.errorLoggingIn = true;}
     })
   }
 
