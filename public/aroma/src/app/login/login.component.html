@@ -1,4 +1,4 @@
-<span *ngIf="errorLoggingIn">{{loginErrorMessage}}</span>
+<h3 class="alert-danger" *ngIf="errorLoggingIn">{{loginErrorMessage}}</h3>
 <div *ngIf="!isLoggedIn">
 <h1>{{title_login}}</h1>
 <form #LoginForm="ngForm" (ngSubmit)="login(LoginForm)">

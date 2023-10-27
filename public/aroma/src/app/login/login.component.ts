@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit{
   creds: Credentials = new Credentials("", "");
   get isLoggedIn(){return this._authenticationService.isLoggedIn}
   errorLoggingIn: boolean = false;
-  loginErrorMessage: string = "Error logging in, try a different username or password or maybe there was a backend error";
+  loginErrorMessage: string = "Error logging in, try a different username or password.";
 
 
   title_login: string = environment.title_login;

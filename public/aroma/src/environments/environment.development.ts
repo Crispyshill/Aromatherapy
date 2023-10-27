@@ -21,6 +21,7 @@ export const environment = {
     message_create_eo_error: "Error Creating New Essential Oil",
     message_update_eo_success: "Successfully Updated New Essential Oil",
     message_update_eo_error: "Error Updating Essential Oil",
+    message_login_error: "Error logging in, try a different username or password.",
     button_update: "Update",
     button_delete: "Delete",
     button_close: "Close",
