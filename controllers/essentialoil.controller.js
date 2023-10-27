@@ -60,7 +60,7 @@ const _fillReponseWithGetOneError = function(err, response){
     console.log(err);
     if(err === process.env.ERR_NO_ESSENTIALOIL){
         response.status = 404;
-        response.message = {"message": process.env.MESSAGE_FIND_ERROR}
+        response.message = {"message": process.env.MESSAGE_RESOURCE_NOT_FOUND}
     }
     else{
         response.status = 500;
@@ -77,7 +77,6 @@ const fullUpdateEssentialoil = function (req, res) {
 }
 
 const deleteOneEssentialoil = function (req, res) {
-    console.log("calling delete on backend");
     const id = _getIdFromRequest(req);
     const response = _createResponse();
 
@@ -90,9 +89,9 @@ const deleteOneEssentialoil = function (req, res) {
 
 const _fillResponseWithErrorForDelete = function(err, response){
     console.log(err);
-    if(err === process.env.ERR_NO_ESSENTIALOIL){
+    if(err === process.env.MESSAGE_RESOURCE_NOT_FOUND){
         response.status = 404;
-        response.message = {"message": process.env.MESSAGE_FIND_ERROR}
+        response.message = {"message": process.env.MESSAGE_RESOURCE_NOT_FOUND}
     }
     else{
         response.status = 500;
@@ -196,7 +195,10 @@ const _updateEssentialoil = function (req, res, _fillEssentialoil) {
 const _fillResponseWithUpdateError = function(err, response){
 
     console.log("Error", err);
-    if(err === process.env.ERR_NO_ESSENTIALOIL){
+    if (err._message == process.env.ERROR_ESSENTIALOIL_VALIDATION) {
+        _fillResponse(process.env.STATUS_INVALID_REQUEST, { error: process.env.MESSAGE_ESSENTIALOIL_VALIDATION_FAILED }, response);
+    }
+    else if(err === process.env.ERR_NO_ESSENTIALOIL){
         response.status = 404;
         response.message = {"message": process.env.MESSAGE_FIND_ERROR}
     }
@@ -228,7 +230,7 @@ const _saveEssentialoil = function (essentialoil) {
 const _ensureEssentialoilDeleted = function (acknowledgement) {
     return new Promise((resolve, reject) => {
         if (acknowledgement.deletedCount < process.env.MIN_DELETE) {
-            reject();
+            reject(process.env.MESSAGE_RESOURCE_NOT_FOUND);
         }
         else {
             resolve(acknowledgement);

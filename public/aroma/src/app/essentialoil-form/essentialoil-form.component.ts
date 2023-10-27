@@ -17,12 +17,24 @@ export class EssentialoilFormComponent implements OnInit {
 
   existingEssentialoil!: Essentialoil;
 
+  get updatingEssentialOil(): boolean { if (this._activatedRoute.snapshot.params['essentialoilId']) { return true; } else { return false; } }
+  errorUpdating: boolean = false;
+  errorCreating: boolean = false;
+  successfulUpdate: boolean = false;
+  successfulCreate: boolean = false;
+
+
   modern_name_pre: string = environment.message_modern_name_pre;
   latin_name_pre: string = environment.message_latin_name_pre;
   balanced_doshas_pre: string = environment.message_balanced_doshas_pre;
   vata: string = environment.vata;
   pitta: string = environment.pitta;
   kapha: string = environment.kapha;
+
+  message_create_eo_success: string = environment.message_create_eo_success;
+  message_create_eo_error: string = environment.message_create_eo_error;
+  message_update_eo_success: string = environment.message_update_eo_success;
+  message_update_eo_error: string = environment.message_update_eo_error;
 
   ngOnInit(): void {
     if (this._activatedRoute.snapshot.params['essentialoilId']) {
@@ -33,7 +45,7 @@ export class EssentialoilFormComponent implements OnInit {
       });
       this.submitButtonText = "Update";
     }
-    
+
 
   }
 
@@ -41,8 +53,8 @@ export class EssentialoilFormComponent implements OnInit {
     console.log("existing essential oil", existingEssentialoil)
     this.existingEssentialoil = existingEssentialoil;
     this.essentialoilForm.form.patchValue({ "vata": existingEssentialoil.balancedDoshas.vata });
-    this.essentialoilForm.form.patchValue({ "pitta": existingEssentialoil.balancedDoshas.pitta});
-    this.essentialoilForm.form.patchValue({ "kapha": existingEssentialoil.balancedDoshas.kapha});
+    this.essentialoilForm.form.patchValue({ "pitta": existingEssentialoil.balancedDoshas.pitta });
+    this.essentialoilForm.form.patchValue({ "kapha": existingEssentialoil.balancedDoshas.kapha });
     this.essentialoilForm.form.patchValue({ "modernName": existingEssentialoil.modernName });
     this.essentialoilForm.form.patchValue({ "latinName": existingEssentialoil.latinName });
   }
@@ -69,13 +81,13 @@ export class EssentialoilFormComponent implements OnInit {
     console.log("Balanced doshas to update", balancedDoshas)
     const newEssentialoil: Essentialoil = new Essentialoil(this.existingEssentialoil._id, this.essentialoilForm.form.value.modernName, this.essentialoilForm.form.value.latinName, balancedDoshas, this.existingEssentialoil.chemicals);
     const changedAttributes = this.identifyChanges(newEssentialoil);
-    if(Object.keys(changedAttributes).length !== 0){
+    if (Object.keys(changedAttributes).length !== 0) {
       console.log("Updating essential oil", changedAttributes);
       this._essentialoilDataService.partialUpdateEssentialoil(this.existingEssentialoil._id, changedAttributes).subscribe({
-        next: (savedEssentialoil) => {console.log("saved eo", savedEssentialoil)},
-        error: (err) => {console.log("There was an error updating", err)}
+        next: (savedEssentialoil) => { console.log("saved eo", savedEssentialoil); this.successfulUpdate = true; this.errorUpdating = false },
+        error: (err) => { console.log("There was an error updating", err); this.successfulUpdate = false; this.errorUpdating = true; }
       });
-    }    
+    }
   }
 
   identifyChanges(newEssentialoil: Essentialoil): Object {
@@ -96,7 +108,7 @@ export class EssentialoilFormComponent implements OnInit {
     return changedAttributes;
   }
 
-  getBalancedDoshasFromForm(): Doshas{
+  getBalancedDoshasFromForm(): Doshas {
     console.log("vata", this.essentialoilForm.form.value.vata)
     return new Doshas(this.essentialoilForm.form.value.vata === true, this.essentialoilForm.form.value.pitta === true, this.essentialoilForm.form.value.kapha === true);
   }
@@ -107,8 +119,8 @@ export class EssentialoilFormComponent implements OnInit {
     const newEssentialoil: Essentialoil = new Essentialoil("", this.essentialoilForm.form.value.modernName, this.essentialoilForm.form.value.latinName, balancedDoshas, []);
     console.log("Creating essential oil", newEssentialoil);
     this._essentialoilDataService.createEssentialoil(newEssentialoil).subscribe({
-      next: () => { },
-      error: () => { }
+      next: () => { this.successfulCreate = true; this.errorCreating = false; },
+      error: () => { this.successfulCreate = false; this.errorCreating = true; }
     });
   }
 

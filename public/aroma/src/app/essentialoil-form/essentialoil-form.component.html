@@ -1,4 +1,8 @@
 <div class="container">
+    <h3 class="alert-success" *ngIf="successfulCreate">{{message_create_eo_success}}</h3>
+    <h3 class="alert-success" *ngIf="successfulUpdate">{{message_update_eo_success}}</h3>
+    <h3 class="alert-danger" *ngIf="errorCreating">{{message_create_eo_error}}</h3>
+    <h3 class="alert-danger" *ngIf="errorUpdating">{{message_update_eo_error}}</h3>
     <div class="row">
         <div class="col text-center">
             <form #essentialoilForm="ngForm" (ngSubmit)="submitForm()">

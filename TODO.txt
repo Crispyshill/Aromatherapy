@@ -8,9 +8,15 @@ x 1) Extract constants from angular frontend
    x g)profile
    x h)register
 
-2) Promisify subdocument backend controller
-3) Implement hardening for get all in subdocument
-4) Implement better error handling in backend
+x 2) Promisify subdocument backend controller
+x 3) Implement hardening for get all in subdocument
+x 4) Implement better error handling in backend
+    x a) essentialoil.controller
+    x b) chemical.controller
+    x c) user.controller
+    x d) authentication.controller
+
+x 4.5) Make bcrypt async
 5) Refactor JwtToken class so that it extracts the data itself
 6) Add failure and success messages to all forms
 7) Implement profile page

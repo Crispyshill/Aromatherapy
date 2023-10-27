@@ -7,29 +7,65 @@ require('dotenv').config();
 const createOne = function (req, res) {
     console.log("create one user recieved");
     let newUser = _getUserFromRequest(req);
-    const response = {
+    const response = createResponse();
+
+    bcrypt.genSalt(14)
+        .then((generatedSalt) => bcrypt.hash(newUser.password + "", generatedSalt))
+        .then((hash) => _putHashInUser(newUser, hash))
+        .then((newUserWithHash) => _createNewUser(newUserWithHash))
+        .then((createdUser) => _fillResponseWithNewUser(createdUser, response))
+        .catch((err) => _fillResponseWithCreateError(err, response))
+        .finally(() => _sendResponse(response, res));
+
+}
+
+const _fillResponseWithCreateError = function(err, response){
+    console.log("Create user errror", err);
+    if(err._message == process.env.ERROR_USER_VALIDATION){
+        response.status = process.env.STATUS_INVALID_REQUEST;
+        response.message = {"message": process.env.MESSAGE_USER_VALIDATION_FAILED};
+    }
+    else{
+        response.status = process.env.STATUS_CREATE_ERROR;
+        response.message = {"message": process.env.MESSAGE_CREATE_ERROR}
+    }
+}
+
+
+
+const _fillResponseWithNewUser = function(newUser, response){
+        response.status = process.env.STATUS_CREATED;
+        response.message = newUser;
+}
+
+const _putHashInUser = function(newUser, hash){
+    return new Promise((resolve, reject) => {
+        newUser.password = hash;
+        console.log("Put has in", newUser);
+        resolve(newUser);
+    });
+}
+
+const _createNewUser = function(newUser){
+    console.log("Creating user", newUser);
+    return User.create(newUser);
+}
+
+const createResponse = function(){
+    return {
         status: 200,
         message: []
     }
-
-    console.log("plain text pass", newUser.password);
-    newUser.password = bcrypt.hashSync(newUser.password + "", bcrypt.genSaltSync(14));
-    User.create(newUser)
-        .then((createdUser) => { response.status = 201; response.message = createdUser })
-        .catch((err) => { console.log("Error creating user", err); response.status = 500; response.message = { "message": "Error creating user" } })
-        .finally(() => { res.status(response.status).json(response.message) });
-
 }
+
 
 
 const login = function (req, res) {
     console.log("login request recieved");
     console.log("request", req)
     let credentials = _getCredentialsFromRequest(req);
-    const response = {
-        status: 200,
-        message: []
-    }
+    const response = createResponse();
+
     _findUserByUsername(credentials.username)
         .then((databaseUser) => _checkIfUserIsEmpty(databaseUser))
         .then((nonEmptyUser) => _verifyCredentials(credentials.password + "", nonEmptyUser))
@@ -44,9 +80,15 @@ const _sendResponse = function(response, res){
 }
 
 const _fillResponseWithLoginError = function(err, response){
-    console.log(err);
-    response.status = 401;
-    response.message = {"message": "Unauthorized"};
+    console.log("login error", err);
+    if(err === process.env.MESSAGE_RESOURCE_NOT_FOUND){
+        response.status = process.env.STATUS_UNAUTHORIZED;
+        response.message = {"message": process.env.MESSAGE_UNAUTHORIZED};
+    }
+    else{
+        response.status = process.env.STATUS_LOGIN_ERROR
+        response.message = {"message": process.env.MESSAGE_LOGIN_ERROR}
+    }
 }
 
 const _findUserByUsername = function(username){
@@ -54,37 +96,15 @@ const _findUserByUsername = function(username){
 }
 
 
-const _fillResponseWithNoSuchUser = function (response, err) {
-    console.log(err);
-        console.log("No such user");
-        response.status = 401;
-        response.message = { "message": "No such user with given credentials" }
-}
-
-const _fillResponseWithTokenGenerationError = function (response, err) {
-    console.log(err);
-        console.log("Error generating token");
-        response.status = 500;
-        response.message = { "message": "error generating token"}
-
-}
-
-
-const _fillResponseWithUser = function (user, response) {
-        response.status = 200;
-        response.message = user;
-}
-
 const _fillResponseWithToken = function (token, response) {
     response.status = 200;
     response.message = { "token": token };
 }
 
 const _checkIfUserIsEmpty = function (user) {
-    console.log("Checking if user is empty", user.password)
     return new Promise((resolve, reject) => {
         if (null === user) {
-            reject();
+            reject(process.env.MESSAGE_RESOURCE_NOT_FOUND);
         }
         else {
             resolve(user);
@@ -97,7 +117,7 @@ const _verifyCredentials = function (sentPassword, databaseUser) {
     return new Promise((resolve, reject) => {
         bcrypt.compare(sentPassword, databaseUser.password)
             .then((match) => {if(match){console.log("Matching"), resolve(databaseUser);}else{console.log("not matching");reject(databaseUser)}})
-            .catch(err => {console.log("err", err); reject();})
+            .catch(err => {console.log("err", err); reject(process.env.STATUS_RESOURCE_NOT_FOUND);})
 
     })
 }
@@ -105,7 +125,7 @@ const _verifyCredentials = function (sentPassword, databaseUser) {
 const _generateToken = function (name) {
     console.log("Generating token", name)
     return new Promise((resolve, reject) => {
-        const token = jwt.sign({ "name": name }, "CS572"); //This should be secret and be in the environment variables PUT IN .ENV
+        const token = jwt.sign({ "name": name }, process.env.JWT_SECRET); //This should be secret and be in the environment variables PUT IN .ENV
         resolve(token);
     });
 }
